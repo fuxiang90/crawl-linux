@@ -7,16 +7,18 @@ import Queue
 import socket
 import time
 
-fp = open('1' ,'r')
-context = fp.read()
+fp = open('1','r')
+ff = fp.read()
+soup = BeautifulSoup(ff)
+res = soup.findAll('a)
 
-t = set('z')
-for i in context:
-    print 'now is ' + i
-    if i  in t:
-        print i + 'in'
-    else:
-        print 'not in'
-        t |= set(i)
-    print t
-    print '################'
+res = soup.findAll('a')
+re_html = r'(/broad.nsf/(\w+\.)+\?\w+)'
+
+
+for x in res:
+    t = unicode(x)
+    m = re.findall(re_html,t)
+    for xx in m:
+            print xx
+

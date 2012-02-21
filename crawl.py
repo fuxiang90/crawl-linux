@@ -38,14 +38,13 @@ def get_url_list(html):
         for xx in m:            
             str_url = xx[0]
             #print str_url
-            g_url_set |= set('fuxiang')
             if str_url not in g_url_set :
                 #print str_url + 'add'
                 g_url_queue.put(str_url ) 
                 g_url_set |= set([str_url]) #之前是 set(str_url) 这样的url set 出来是一个个字符
             
 
-#######################################################
+########################################################
 def strip_tags(html):
     """
     Python中过滤HTML标签的函数
