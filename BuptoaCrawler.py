@@ -1,8 +1,9 @@
-
+#encoding=utf-8 
 from BeautifulSoup import BeautifulSoup
 import sys
 from FileProcess import *
-
+from MysqlProcess import *
+from Option import *
 
 def get_all_links_soup(html):
     oa_index = []
@@ -29,7 +30,6 @@ def get_all_links_soup(html):
             continue
         
         sub = [title ,link ,author,description]
-        
         oa_index.append(sub)
     
     return oa_index
@@ -51,23 +51,26 @@ def get_link_soup(page):
 def get_buptoa_page(url):
     return get_page(url)
 
-
-
-
-
-    
     
 
  
 def test_main(url):
 #    html = get_buptoa_html(url)
     html = test_utf('2.htm')
+#    print html
 #    print html.lower()
     index = get_all_links_soup(html.lower())
-    for ii in index:
-        print 'title :'  ,ii[0]
-        print ii[3]
-        print "\n\n-------------------------------------------------\n\n"
+#    for ii in index:
+#        print 'title :'  ,ii[0]
+#        print "---------------------------------------------------"
+#        print len(ii[3])
+#        print ii[3]
+#        print "---------------------------------------------------"
+#    store_index(index,'buptoa_index')
+#    print index
+    insert_bbsindex(index)
+    show_bbsindex()
+    
     
 def lookup_main(url):
     

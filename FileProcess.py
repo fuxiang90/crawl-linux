@@ -80,7 +80,7 @@ def repalce(s,re_exp,repl_string):
 def store_page_content(page):
     import os
     global g_txt_count
-    os.chdir(r'/home/fuxiang/python/search/file')
+    os.chdir(r'/home/fuxiang/python/crawl-linux/file')
     soup = BeautifulSoup(page)
 
     allfonttext=soup.findAll(['a','p','font'])
@@ -103,7 +103,7 @@ def store_page_content(page):
 def store_page(page):
     import os
     global g_html_count
-    os.chdir(r'/home/fuxiang/python/search/html')
+    os.chdir(r'/home/fuxiang/python/crawl-linux/html')
     fwrite = open (str(g_html_count),'w')
 
     # 存储html 的正文
@@ -116,12 +116,26 @@ def store_page(page):
 def store_index(index):
 
     import os
-    os.chdir(r'/home/fuxiang/python/search/file')
+    os.chdir(r'/home/fuxiang/python/crawl-linux/file')
     fwrite = open ('index','w')
     for i in index:
         fwrite.write(str(i))
 
     fwrite.close()
+
+def store_index(index,filename):
+
+    import os
+    os.chdir(r'/home/fuxiang/python/crawl-linux/file')
+    fwrite = open (filename,'w')
+    for i in index:
+        for ii in i:
+            fwrite.write(ii)
+
+    fwrite.close()
+    
+#    fp = open(filename,'r')
+#    print fp.read()
 
 
 ## 默认是处理gbk 并转化utf-8
