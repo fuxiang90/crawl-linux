@@ -25,7 +25,8 @@ def get_all_links_soup(html):
         link = 'http://buptoa.bupt.edu.cn' + link
         author = u'xueshuban'
         
-        description = filter_tags(get_page(link))
+        description = get_page(link)
+#        description = filter_tags(get_page(link))
         if description is None:
             continue
         
@@ -55,32 +56,34 @@ def get_buptoa_page(url):
 
  
 def test_main(url):
-#    html = get_buptoa_html(url)
-    html = test_utf('2.htm')
+    html = get_buptoa_page(url)
+    #html = test_utf('2.htm')
 #    print html
 #    print html.lower()
     index = get_all_links_soup(html.lower())
-#    for ii in index:
-#        print 'title :'  ,ii[0]
-#        print "---------------------------------------------------"
-#        print len(ii[3])
-#        print ii[3]
-#        print "---------------------------------------------------"
-#    store_index(index,'buptoa_index')
-#    print index
-    insert_bbsindex(index)
-    show_bbsindex()
+    for ii in index:
+        print 'title :'  ,ii[0]
+        print "---------------------------------------------------"
+        print len(ii[3])
+        print ii[3]
+        print "###################################################"
+    #store_index(index,'buptoa_index')
+    #print index
+    #insert_bbsindex(index)
+    #show_bbsindex()
     
     
-def lookup_main(url):
+#def lookup_main(url):
     
-    index = filter_tags( get_buptoa_html(url) )
-    print index
+   # index = filter_tags( get_buptoa_html(url) )
+   # print index
     
     
     
 if __name__ == "__main__":
-    test_main('http://buptoa.bupt.edu.cn/broad.nsf/depView_qt?OpenView&Start=14&Count=30&Expand=14#14')
+    urls = ['http://buptoa.bupt.edu.cn/broad.nsf/AuthorView?OpenView&Start=2','http://buptoa.bupt.edu.cn/broad.nsf/depView_qt?OpenView&Start=14&Count=30&Expand=14#14']
+    for url in urls:
+        test_main(url)
 #    get_content( get_xml('http://bbs.byr.cn/rss/board-SCS') )
 
 #    print strip_tags(open('1.xml').read() )

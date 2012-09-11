@@ -1,4 +1,5 @@
-﻿# 处理文件的一些函数  
+﻿#encoding=utf-8 
+# 处理文件的一些函数  
 #
 #
 # author ： fuxiang ，mail： fuxiang90@gmail.com
@@ -45,6 +46,12 @@ def filter_tags(htmlstr):
     blank_line=re.compile('\n+')
     s=blank_line.sub('\n',s)
     s=replaceCharEntity(s)#替换实体
+    
+    if s.find('<![CDATA[') != -1:
+        start = s.find('<![CDATA[')
+        start = start + 9
+        end = s.find(']]>')
+        s = s[start:end]
     return s
 
 ##替换常用HTML字符实体.
@@ -124,7 +131,6 @@ def store_index(index):
     fwrite.close()
 
 def store_index(index,filename):
-
     import os
     os.chdir(r'/home/fuxiang/python/crawl-linux/file')
     fwrite = open (filename,'w')
@@ -162,6 +168,21 @@ def get_xml(url):
     except:
         return ""
 
+
+def get_seed_file():
+    fp = open('seed')
+    seeds = []
+    for each in fp:
+        pos = each.find('#')
+        #print each 
+        #print pos
+        if pos == -1:
+            seed = each
+        else:
+            seed = each[:pos]
+        if seed != '':
+            seeds.append(seed)
+    return  seeds
 # 测试用的
 def test(file):
     fp = open(file,'r')
@@ -174,5 +195,8 @@ def test(file):
 def test_utf(file):
     fp = open(file,'r')
     return  fp.read()
+if __name__ == "__main__":
+    print str(get_seed_file())
+    
     
 

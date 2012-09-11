@@ -12,7 +12,7 @@ import Queue
 import socket
 import time
 
-socket.setdefaulttimeout(5) 
+socket.setdefaulttimeout(8) 
 
 g_url_queue = Queue.Queue()
 g_url_queue.put('http://www.bupt.edu.cn/')
@@ -38,13 +38,12 @@ def get_url_list(html):
         for xx in m:            
             str_url = xx[0]
             #print str_url
+            g_url_set |= set('fuxiang')
             if str_url not in g_url_set :
-                #print str_url + 'add'
                 g_url_queue.put(str_url ) 
-                g_url_set |= set([str_url]) #之前是 set(str_url) 这样的url set 出来是一个个字符
-            
+                g_url_set |= set(str_url)
 
-########################################################
+#######################################################
 def strip_tags(html):
     """
     Python中过滤HTML标签的函数
@@ -96,7 +95,7 @@ def main_fun(deep):
     count = 0
     print 'debug'
     while g_url_queue.empty() is not True:
-        #print 'debug2'
+        print 'debug2'
         l_url = g_url_queue.get()
         print l_url
         # 捕捉超时错误 ，有些网页链接不上
@@ -105,13 +104,12 @@ def main_fun(deep):
         except :
             continue
         html = fp.read()
-        
+
         fwrite = open(str(count+1) ,'w')
         fwrite.write(html)
         fwrite.close()
         
         soup = BeautifulSoup(html)
-        #print 'debug' + ' ' + str(count+1)
         get_url_list(soup)
 
         get_context(count+1)
