@@ -2,7 +2,9 @@
 import sys
 import MySQLdb
 import random
-
+import myLog
+from FileProcess import get_seed_file
+import time
 
 """
 bbsindex -->
@@ -25,15 +27,12 @@ def isin_index( text):
     
     all = cur.fetchall()
     size = len(all)
-    for i in all :
-        print i
     if size == 0:
         return False
     else :
         return True
 # 使用先将链接拷贝出来的方式
-def isInIndex(link):
-    linkDict = getLink()
+def isInIndex(link,linkDict):
     if link in linkDict:
         return True
     return False
@@ -44,10 +43,9 @@ def insert_bbsindex(index):
     for i in index :
         try :
             if isin_index(i[1]) == True: 
-                print i[1] + "is in mysql"
                 continue
             randnum = random.randint(2,10)#先生成一个随机数的
-            sql = "insert into bbsindex(title ,link ,author ,content,score) values('%s' ,'%s' ,'%s' ,'%s', %d)"  %(str(i[0]),str(i[1]),str(i[2]),str(i[3]),randnum)
+            sql = "insert into bbsindex(title ,link ,author ,content,score,date) values('%s' ,'%s' ,'%s' ,'%s', %d,'%s')"  %(str(i[0]),str(i[1]),str(i[2]),str(i[3]),randnum,time.strftime('%Y-%m-%d',time.localtime(time.time())))
 #            sql = "insert into bbsindex(title ,link ,author ,content,score) values('%s' ,'%s' ,'%s' ,'%s', %d)"  %(i[0].decode('utf-8'),i[1].decode('utf-8'),i[2].decode('utf-8'),i[3].decode('utf-8'),1)
             
             #sql = "insert into bbsindex(title ,score) values('%s' ,'%s' ,'%s' ,'%s', %d)"  %(str(i[0]),1)
@@ -55,8 +53,10 @@ def insert_bbsindex(index):
             cur.execute(sql)
             conn.commit()
         except :
-            print 'insert bad'
-            #print sql
+            myLog.writeLog(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
+            myLog.writeLog('insert bad ')
+            myLog.writeLog( sql)
+            myLog.writeLog('--------------------')
             conn.rollback()
     conn.commit()
     cur.close()
@@ -115,18 +115,29 @@ def deleteBbsdb():
     cur.execute('delete  from bbsindex where 1 ')
     cur.close()
     conn.close()
-    
+
+def testLink():
+    seeds = ["http://bbs.byr.cn/article/Home/46050","http://bbs.byr.cn/article/SCS/142669"]
+    for i in range(1,1000):
+        for seed in seeds:
+            if isin_index(seed):
+                print "is in mysql"
+def testLink2():
+    linkDict = getLink()
+    seeds = ["http://bbs.byr.cn/article/Home/46050","http://bbs.byr.cn/article/SCS/142669"]
+    for i in range(1,1000):
+        for seed in seeds:
+            if isInIndex(seed,linkDict):
+                print "is in mysql"
     
     
 if __name__ == "__main__":
 #    index = [ ['test2','test','test','test']]
-    #index = [ ['test5','test','test','test'],['test4','test','test','test']]
-    #insert_bbsindex(index)
+    index = [ ['test5','test','test','test'],['test4','test','test','test']]
+    insert_bbsindex(index)
     #show_bbsindex()
     #deleteBbsdb()
-    if isInIndex('http://bbs.byr.cn/article/SCS/142669')==True :
-        print 'is in mysql'
-    else:
-        print 'not in'  
+#    testLink2()
+    print "done it"
         
     
