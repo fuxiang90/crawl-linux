@@ -46,8 +46,7 @@ def lookup_main(url):
     fin.write('\n')
     fin.write( time.strftime('%Y-%m-%d',time.localtime(time.time())) )
     fin.write('\n')
-    for item in index:
-        
+    for item in index:        
         fin.write(item[1] )
         fin.write('\n')
     

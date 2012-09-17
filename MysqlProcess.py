@@ -46,10 +46,7 @@ def insert_bbsindex(index):
                 continue
             randnum = random.randint(2,10)#先生成一个随机数的
             sql = "insert into bbsindex(title ,link ,author ,content,score,date) values('%s' ,'%s' ,'%s' ,'%s', %d,'%s')"  %(str(i[0]),str(i[1]),str(i[2]),str(i[3]),randnum,time.strftime('%Y-%m-%d',time.localtime(time.time())))
-#            sql = "insert into bbsindex(title ,link ,author ,content,score) values('%s' ,'%s' ,'%s' ,'%s', %d)"  %(i[0].decode('utf-8'),i[1].decode('utf-8'),i[2].decode('utf-8'),i[3].decode('utf-8'),1)
-            
-            #sql = "insert into bbsindex(title ,score) values('%s' ,'%s' ,'%s' ,'%s', %d)"  %(str(i[0]),1)
-#            print sql
+
             cur.execute(sql)
             conn.commit()
         except :
@@ -133,7 +130,7 @@ def testLink2():
     
 if __name__ == "__main__":
 #    index = [ ['test2','test','test','test']]
-    index = [ ['test5','test','test','test'],['test4','test','test','test']]
+#    index = [ ['test5','test','test','test'],['test4','test','test','test']]
     insert_bbsindex(index)
     #show_bbsindex()
     #deleteBbsdb()

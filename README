@@ -1,5 +1,14 @@
 # 首先申明此代码不用作商业用途，纯属个人兴趣
 
+直接运行BbsCrawler.py 
 
-参考
-1 http://apps.hi.baidu.com/share/detail/19949516
+--mysql--配置
+都可以自己设置：我的是indexdb 数据库，里面有bbsindex 这个表：
+bbsindex字段设置（id：int， 主键； title：varchar; link:varchar ;author:varchar; content:varchar ;text:varchar ；score:double ;date:时间类型）
+其中content 长度设置为15000  text 6000
+然后再配置下 链接数据库的用户名和密码
+
+--python--配置
+在2.7 下开发，需要beautifulsoup  支持
+
+

@@ -196,7 +196,8 @@ def test_utf(file):
     fp = open(file,'r')
     return  fp.read()
 if __name__ == "__main__":
-    print str(get_seed_file())
+#    print str(get_seed_file())
+    print  (get_page("http://www.newsmth.net/nForum/#!article/Children/4390093"))
     
     
 
