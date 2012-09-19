@@ -2,7 +2,7 @@
 from BeautifulSoup import BeautifulSoup
 import sys
 from FileProcess import *
-from MysqlProcess import *
+import MysqlProcess2
     
 ###
 """
@@ -35,10 +35,11 @@ def get_index_bbs(content):
 #爬取的入口函数
 def crawl_main():
     seeds = get_seed_file()
-    print seeds
+    db = MysqlProcess2.MysqlProcess()
     for url in seeds:
         index = get_index_bbs( get_xml(url) )
-        insert_bbsindex(index)
+#        insert_bbsindex(index)
+        db.insertBbsDb(index)
 
     
     

@@ -61,5 +61,6 @@ if __name__ == "__main__":
 #    show_bbsindex()
     
     lookup_main("http://bbs.byr.cn/rss/topten")
+    print "done it"
 
 
