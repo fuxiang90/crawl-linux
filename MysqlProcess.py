@@ -45,13 +45,17 @@ def insert_bbsindex(index):
             if isin_index(i[1]) == True: 
                 continue
             randnum = random.randint(2,10)#先生成一个随机数的
-            sql = "insert into bbsindex(title ,link ,author ,content,text,score,date) values('%s' ,'%s' ,'%s' ,'%s',%s', %d,'%s')"  %(str(i[0]),str(i[1]),str(i[2]),str(i[3]),filter_tags(str(i[3])),randnum,time.strftime('%Y-%m-%d',time.localtime(time.time())))
+            text = filter_tags(str(i[3]))
+            sql = "insert into bbsindex(title ,link ,author ,content,text,score,date) values('%s' ,'%s' ,'%s','%s','%s', '%d','%s')"  %(str(i[0]),str(i[1]),str(i[2]),str(i[3]),text,randnum,time.strftime('%Y-%m-%d',time.localtime(time.time())))
+#            sql = "insert into bbsindex(title ,link ,author ,content,score,date) values('%s' ,'%s' ,'%s' ,'%s', %d,'%s')"  %(str(i[0]),str(i[1]),str(i[2]),str(i[3]),randnum,time.strftime('%Y-%m-%d',time.localtime(time.time())))
+
             print 
             cur.execute(sql)
             conn.commit()
-        except :
+        except MySQLdb.ProgrammingError as error:
             myLog.writeLog(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
-            myLog.writeLog('insert bad ')
+            print "---->SQL Error: %s" % error
+            myLog.writeLog("---->SQL Error: %s" % error)
             myLog.writeLog( sql)
             myLog.writeLog('--------------------')
             conn.rollback()
@@ -130,7 +134,7 @@ def testLink2():
     
 if __name__ == "__main__":
 #    index = [ ['test2','test','test','test']]
-    index = [ ['test5','test','test','test'],['test4','test','test','test']]
+    index = [ ['test5','test122222233564','test','test']]
     insert_bbsindex(index)
     #show_bbsindex()
     #deleteBbsdb()

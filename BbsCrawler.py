@@ -3,6 +3,8 @@ from BeautifulSoup import BeautifulSoup
 import sys
 from FileProcess import *
 import MysqlProcess2
+import MysqlProcess
+
     
 ###
 """
@@ -40,6 +42,7 @@ def crawl_main():
         index = get_index_bbs( get_xml(url) )
 #        insert_bbsindex(index)
         db.insertBbsDb(index)
+#        MysqlProcess.insert_bbsindex(index)
 
     
     

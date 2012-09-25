@@ -9,9 +9,11 @@ import time
 class MysqlProcess(object):
     def __init__ (self):
         self.linkDict = self.getLink()
-        self.conn = self.connConnect()
+#        self.conn = self.connConnect()
+        self.conn = None
     def connConnect(self,dbstr = "indexdb",hoststr = "localhost",userstr = "osqa",passwdstr = "osqa"):
-        conn = MySQLdb.connect(host = str(hoststr),user = str(userstr),passwd = str(passwdstr) ,db = str(dbstr), charset='utf8')
+#        conn = MySQLdb.connect(host = str(hoststr),user = str(userstr),passwd = str(passwdstr) ,db = str(dbstr), charset='utf8')
+        conn = MySQLdb.connect(host = 'localhost',user = 'root',passwd = '1xiao2go' ,db = 'indexdb', charset='utf8')
         return conn
     def isInIndex(self,link):
         if link in self.linkDict:
@@ -30,26 +32,28 @@ class MysqlProcess(object):
         return linkDict
 
     def insertBbsDb(self,index):
-#        self.conn = self.connConnect(self)
+        self.conn = self.connConnect(self)
         cur = self.conn.cursor()
         for i in index :
             try :
                 if self.isInIndex(i[1]) == True: 
                     continue
                 randnum = random.randint(2,10)#先生成一个随机数的
-                sql = "insert into bbsindex(title ,link ,author ,content,text,score,date) values('%s' ,'%s' ,'%s' ,'%s',%s', %d,'%s')"  %(str(i[0]),str(i[1]),str(i[2]),str(i[3]),filter_tags(str(i[3])),randnum,time.strftime('%Y-%m-%d',time.localtime(time.time())))
+                sql = "insert into bbsindex(title ,link ,author ,content,text,score,date) values('%s' ,'%s' ,'%s' ,'%s','%s', '%d','%s')" \
+                                 %(str(i[0]),str(i[1]),str(i[2]),str(i[3]),filter_tags(str(i[3])),randnum,time.strftime('%Y-%m-%d',time.localtime(time.time())))
+#                sql = "insert into bbsindex(title ,link ,author ,content,score,date) values('%s' ,'%s' ,'%s' ,'%s', %d,'%s')"  %(str(i[0]),str(i[1]),str(i[2]),str(i[3]),randnum,time.strftime('%Y-%m-%d',time.localtime(time.time())))
                 cur.execute(sql)
                 self.conn.commit()
             except :
                 myLog.writeLog(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
-                myLog.writeLog('insert bad ')
+                print('insert bad ')
                 myLog.writeLog(i[3])
                 myLog.writeLog('--------------------')
                 self.conn.rollback()
-            self.conn.commit()
+        self.conn.commit()
         
         cur.close()
-
+        self.conn.close()
     def showDb(self):
         self.conn = self.connConnect()
         cur = self.conn.cursor()
@@ -68,7 +72,7 @@ class MysqlProcess(object):
     
 if __name__ == "__main__":
 #    index = [ ['test2','test','test','test']]
-    index = [ ['test5','test7','test','test'],['test4','test8','test','test']]
+    index = [ ['test45','test222','test','test']]
     db = MysqlProcess()
     db.insertBbsDb(index)
     

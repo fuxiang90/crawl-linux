@@ -1,5 +1,7 @@
 # 首先申明此代码不用作商业用途，纯属个人兴趣
 
+ 
+
 直接运行BbsCrawler.py 
 
 --mysql--配置
@@ -10,5 +12,5 @@ bbsindex字段设置（id：int， 主键； title：varchar; link:varchar ;auth
 
 --python--配置
 在2.7 下开发，需要beautifulsoup  支持
-
+requests http://docs.python-requests.org/en/latest/user/install/#install
 
